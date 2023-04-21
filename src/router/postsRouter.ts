@@ -1,31 +1,23 @@
-import express from "express";
-import { PostsBusiness } from "../business/PostsBusiness";
-import { PostsController } from "../controller/PostsController";
-import { PostsDatabase } from "../database/PostsDataBase";
-import { UserDatabase } from "../database/UserDataBase";
-import { HashManager } from "../services/HashManager";
-import { IdGenerator } from "../services/IdGenerator";
-import { TokenManager } from "../services/TokenManager";
+import express from 'express'
+import { PostBusiness } from '../business/PostsBusiness'
+import { PostController } from '../controller/PostsController'
+import { PostDatabase } from '../database/PostsDatabase'
+import { IdGenerator } from '../services/IdGenerator'
+import { TokenManager } from '../services/TokenManager'
 
-export const postsRouter = express.Router()
+export const postRouter = express.Router()
 
-const postsController = new PostsController(
-    new PostsBusiness(
-        new PostsDatabase(),
-        new UserDatabase(),
+const postController = new PostController(
+    new PostBusiness(
+        new PostDatabase(),
         new IdGenerator(),
-        new TokenManager(),
-        new HashManager(),
-        
+        new TokenManager()
     )
 )
 
-postsRouter.get("/",postsController.getAllPosts)
-
-postsRouter.post("/",postsController.createNewPost)
-
-postsRouter.put("/:id",postsController.editPost)
-
-postsRouter.delete("/:id",postsController.deletePost)
-
-postsRouter.put("/:id/like", postsController.likeDislike)
+postRouter.get("/", postController.getPosts)
+postRouter.post("/", postController.createPost)
+postRouter.put("/:id", postController.editPost)
+postRouter.delete("/:id", postController.deletePost)
+postRouter.put("/:id/like", postController.likeOrDislikePost)
+postRouter.get("/comments/:id", postController.getCommentsByPostId)

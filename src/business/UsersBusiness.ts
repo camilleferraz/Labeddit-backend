@@ -72,6 +72,12 @@ export class UserBusiness{
             throw new BadRequestError("'password' deve ser string")
         }
 
+        const emailAlreadyExists = await this.userDataBase.findUserByEmail(email)
+
+        if (emailAlreadyExists) {
+            throw new BadRequestError("'email' já existe")
+        }
+
         const id = this.idGenerator.generate()
 
         const passwordHash = await this.hashManager.hash(password)

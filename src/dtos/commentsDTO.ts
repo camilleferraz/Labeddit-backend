@@ -1,29 +1,40 @@
+import { CommentsModel } from "../types"
 
-
-export interface getCommentsInputDTO{
-    token:string | undefined,
-    postId:string
+export interface GetCommentsInputDTO {
+    id: string,
+    token: string | undefined
 }
 
-export interface CreateCommentsInputDTO{
-    token:string | undefined,
-    postId:string,
-    content:unknown
+export interface GetCommentsInputDTO {
+    token: string | undefined
 }
 
-export interface EditCommentsInputDTO{
+export type GetCommentsOutputDTO = CommentsModel[]
+
+export interface CreateCommentsInputDTO {
+    postId: string,
+    token: string | undefined,
+    comments: unknown
+}
+
+export interface CreateCommentsOutputDTO {
+    message: string,
+    comments: string
+}
+
+export interface EditCommentsInputDTO {
     idToEdit: string,
-    token:string | undefined,
-    content:unknown
+    token: string | undefined,
+    comments: unknown
 }
 
-export interface DeleteCommentsInputDTO{
+export interface DeleteCommentsInputDTO {
     idToDelete: string,
-    token:string | undefined,
+    token: string | undefined
 }
 
-export interface LikeDislikeCommentsInputDTO{
-   idToLikeDislike:string,
-   token:string|undefined,
-   like:unknown
+export interface LikeOrDislikeCommentsInputDTO {
+    idToLikeOrDislike: string,
+    token: string | undefined,
+    like: unknown
 }

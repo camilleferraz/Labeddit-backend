@@ -1,104 +1,110 @@
-import { CommentDB, CommentModel } from "../types"
+import { CommentsDB, CommentsModel } from "../types"
 
-
-
-export class Comment {
+export class Comments {
     constructor(
         private id: string,
-        private creatorId: string,
         private postId: string,
-        private content: string,
+        private userName: string,
+        private comments: string,
         private likes: number,
         private dislikes: number,
-        private createdAt: string,
-        private updatedAt: string
-    ) {}
+        private createdAt: string
+    ) { }
 
     public getId(): string {
         return this.id
     }
+
     public setId(value: string): void {
         this.id = value
     }
-    public getCreatorId(): string {
-        return this.creatorId
-    }
-    public setCreatorId(value: string): void {
-        this.creatorId = value
-    }
+
     public getPostId(): string {
         return this.postId
     }
+
     public setPostId(value: string): void {
         this.postId = value
     }
-    public getContent(): string {
-        return this.content
+
+    public getComments(): string {
+        return this.comments
     }
-    public setContent(value: string): void {
-        this.content = value
+
+    public setComments(value: string): void {
+        this.comments = value
     }
+
+    public getUserName(): string {
+        return this.userName
+    }
+
+    public setUserName(value: string): void {
+        this.userName = value
+    }
+
     public getLikes(): number {
         return this.likes
     }
+
     public setLikes(value: number): void {
         this.likes = value
     }
-    public addLikes(){
+
+    public addLike() {
         this.likes += 1
     }
-    public removeLikes(){
+
+    public removeLike() {
         this.likes -= 1
     }
-    public addDislikes(){
+
+    public addDislike() {
         this.dislikes += 1
     }
-    public removeDislikes(){
+
+    public removeDislike() {
         this.dislikes -= 1
     }
+
     public getDislikes(): number {
         return this.dislikes
     }
+
     public setDislikes(value: number): void {
         this.dislikes = value
     }
+
+
     public getCreatedAt(): string {
         return this.createdAt
     }
+
     public setCreatedAt(value: string): void {
         this.createdAt = value
     }
-    public getUpdatedAt(): string {
-        return this.updatedAt
-    }
-    public setUpdatedAt(value: string): void {
-        this.updatedAt = value
-    }
 
-    public toDBModel() : CommentDB {
+    public toDBModel(): CommentsDB {
         return {
             id: this.id,
-            creator_id: this.creatorId,
             post_id: this.postId,
-            content: this.content,
+            user_id: this.userName,
+            comments: this.comments,
             likes: this.likes,
             dislikes: this.dislikes,
             created_at: this.createdAt,
-            updated_at: this.updatedAt
         }
     }
 
-    public toBusinessModel() : CommentModel {
+    public toBusinessModel(): CommentsModel {
         return {
             id: this.id,
-            creatorId: this.creatorId,
             postId: this.postId,
-            content: this.content,
+            userName: this.userName,
+            comments: this.comments,
             likes: this.likes,
             dislikes: this.dislikes,
             createdAt: this.createdAt,
-            updatedAt: this.updatedAt
         }
     }
-
 }

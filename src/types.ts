@@ -9,6 +9,66 @@ export interface TokenPayload {
     role: USER_ROLES
 }
 
+export interface TokenPayload {
+    id: string,
+    role: USER_ROLES
+}
+
+
+export interface PostModel {
+    id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    comments: number,
+    createdAt: string,
+    updatedAt: string,
+    creator: {
+        id: string,
+        name: string
+    }
+}
+
+export interface PostDB {
+    id: string,
+    creator_id: string,
+    content: string,
+    likes: number,
+    dislikes: number,
+    comments: number
+    created_at: string,
+    updated_at: string
+}
+
+export interface CommentsDB {
+    id: string,
+    post_id: string,
+    user_id: string,
+    comments: string,
+    likes: number,
+    dislikes: number,
+    created_at: string
+}
+
+export interface PostWithCreatorDB extends PostDB {
+    creator_name: string
+}
+
+export interface CommentsWithCreatorDB extends CommentsDB {
+    creator_name: string
+}
+
+export interface LikeDislikeDB {
+    user_id: string,
+    post_id: string,
+    like: number
+}
+
+export enum POST_LIKE {
+    ALREADY_LIKED = "ALREADY LIKED",
+    ALREADY_DISLIKED = "ALREADY DISLIKED"
+}
+
 export interface UserDB {
     id: string,
     name: string,
@@ -27,74 +87,25 @@ export interface UserModel {
     createdAt: string
 }
 
-export interface PostsDB {
+export interface CommentsModel {
     id: string,
-    creator_id:string,
-    content:string,
-    likes:number,
-    dislikes:number,
-    created_at:string,
-    updated_at:string,
-    comments:number
+    postId: string,
+    userName: string,
+    comments: string,
+    likes: number,
+    dislikes: number,
+    createdAt: string
 }
 
-export interface PostsModel {
-    id: string,
-    creatorId:string,
-    content:string,
-    likes:number,
-    dislikes:number,
-    createdAt:string,
-    updatedAt:string,
-    comments:number
+
+export interface LikeDislikeCommentsDB {
+    post_id: string,
+    comments_id: string,
+    user_id: string,
+    like: number
 }
 
-export interface PostsByUserDB {
-    id: string,
-    content: string,
-    likes:number,
-    dislikes:number,
-    created_at:string,
-    updated_at:string,
-    creator_id:string,
-    
+export enum COMMENTS_LIKE {
+    ALREADY_LIKED = "ALREADY LIKED",
+    ALREADY_DISLIKED = "ALREADY DISLIKED"
 }
-
-export interface LikesDislikesDB{
-    user_id:string,
-    post_id:string,
-    like:number
-}
-
-export interface CommentDB{
-    id:string,
-    creator_id:string,
-    post_id:string,
-    content:string,
-    likes:number,
-    dislikes:number,
-    created_at:string,
-    updated_at:string
-}
-
-export interface CommentModel{
-    id:string,
-    creatorId:string,
-    postId:string,
-    content:string,
-    likes:number,
-    dislikes:number,
-    createdAt:string,
-    updatedAt:string
-}
-
-export interface LikesDislikesCommentDB{
-    user_id:string,
-    comment_id:string,
-    like:number
-}
-
-// export enum COMMENT_LIKE{
-//     ALREADY_LIKED = "Already liked",
-//     ALREADY_DISLIKED = "Already disliked"
-// }
