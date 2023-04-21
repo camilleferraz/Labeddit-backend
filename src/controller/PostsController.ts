@@ -1,146 +1,153 @@
-import { Request,Response } from "express";
-import { PostsBusiness } from "../business/PostsBusiness";
-import{GetAllPostsInputDTO, CreateInputPostsDTO, DeleteInputPostsDTO,EditInputDTO,LikeDislikeDTO} from "../dtos/postsDTO"
+import { Request, Response } from "express"
+import { PostBusiness } from "../business/PostsBusiness"
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, getPostCommentsInputDTO, GetPostsInputDTO, LikeOrDislikePostInputDTO } from "../dtos/PostsDTO"
+import { BaseError } from "../errors/BaseError"
 
-export class PostsController{
+export class PostController {
     constructor(
-        private postsBusiness: PostsBusiness
-    ){}
+        private postBusiness: PostBusiness
+    ) {}
 
-
-    public getAllPosts =async (req:Request, res:Response) => {
-       
+    public getPosts = async (req: Request, res: Response) => {               
         try {
-
-
-           const input: GetAllPostsInputDTO = { 
-            q: req.query.q,
-            token: req.headers.authorization}
-
-            const output = await this.postsBusiness.getAllPosts(input)
-
+            const input: GetPostsInputDTO = {
+                token: req.headers.authorization
+            }
+            
+            const output = await this.postBusiness.getPosts(input)
+            
             res.status(200).send(output)
-        } 
-        
-        
-
-        catch (error) {
-            console.log(error)
-    
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
-            } else {
-                res.send("Erro inesperado")
-            } 
-        }
-    }
-
-    public createNewPost =async (req:Request, res:Response) => {
-        try {
-            const input: CreateInputPostsDTO ={
-            content: req.body.content,
-            token: req.headers.authorization
-        }
-
-        const output = await this.postsBusiness.createNewPost(input)
-
-        res.status(201).send(output)
-
         } catch (error) {
-            console.log(error)
-    
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+                        console.log(error)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
-            } 
+                res.status(500).send("Erro inesperado")
+            }
         }
     }
 
-    public editPost =async (req:Request, res:Response) => {
-        
-         try {             const input: EditInputDTO ={
-                id: req.params.id,
-                 content:req.body.content,
-                 token: req.headers.authorization
-             }
-
-         const output = await this.postsBusiness.editPost(input)
-
-         res.status(201).send(output)
-
-            
-         } catch (error) {
-             console.log(error)
-    
-             if (req.statusCode === 200) {
-                 res.status(500)
-            }
-    
-             if (error instanceof Error) {
-                 res.send(error.message)
-             } else {
-                 res.send("Erro inesperado")
-             }     
-        }
-     }
-
-     public deletePost = async (req:Request, res:Response) => {
-         try {
-             const input: DeleteInputPostsDTO ={
-                 id: req.params.id,
-                 token: req.headers.authorization
-             }
-             const output = await this.postsBusiness.deletePost(input)
-             res.status(201).send(output)
-            
-         } catch (error) {
-             console.log(error)
-    
-             if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
-            } else {
-                res.send("Erro inesperado")
-            }      
-        }
-    }
-
-
-    public likeDislike =async (req:Request, res:Response) => {
+    public getCommentsByPostId = async (req: Request, res: Response) => {
         try {
-            const input: LikeDislikeDTO ={
+            const input: getPostCommentsInputDTO = {
                 id: req.params.id,
-                like:req.body.like,
                 token: req.headers.authorization
             }
 
-            const output = await this.postsBusiness.likeDislike(input)
-            res.status(201).send(output)
+            const output = await this.postBusiness.getCommentsByPostId(input)
+
+            res.status(200).send(output)
         } catch (error) {
             console.log(error)
-    
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
                 res.send("Erro inesperado")
-            }      
+            }
         }
     }
 
+    // public getPostComments = async (req: Request, res: Response) => {
+    //     try {
+    //         const input: GetPostsInputDTO = {
+    //             token: req.headers.authorization
+    //         }
+
+    //         const output = await this.postBusiness.getPostComments(input)
+
+    //         res.status(200).send(output)
+    //     } catch (error) {
+    //         console.log(error)
+
+    //         if (error instanceof BaseError) {
+    //             res.status(error.statusCode).send(error.message)
+    //         } else {
+    //             res.send("Erro inesperado")
+    //         }
+    //     }
+    // }
+
+
+    public createPost = async (req: Request, res: Response) => {
+        try {
+            const input: CreatePostInputDTO = {
+                token: req.headers.authorization,
+                content: req.body.content
+            }
+
+            await this.postBusiness.createPost(input)
+
+            res.status(201).end()
+        } catch (error) {
+            console.log(error)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.status(500).send("Erro inesperado")
+            }
+        }
+    }
+
+    public editPost = async (req: Request, res: Response) => {
+        try {
+            const input: EditPostInputDTO = {
+                idToEdit: req.params.id,
+                content: req.body.content,
+                token: req.headers.authorization
+            }
+
+            await this.postBusiness.editPost(input)
+
+            res.status(200).end()
+        } catch (error) {
+            console.log(error)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.status(500).send("Erro inesperado")
+            }
+        }
+    }
+
+    public deletePost = async (req: Request, res: Response) => {
+        try {
+            const input: DeletePostInputDTO = {
+                idToDelete: req.params.id,
+                token: req.headers.authorization
+            }
+         
+            await this.postBusiness.deletePost(input)
+
+            res.status(200).end()
+        } catch (error) {
+            console.log(error)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.status(500).send("Erro inesperado")
+            }
+        }
+    }
+
+    public likeOrDislikePost = async (req: Request, res: Response) => {
+        try {
+            const input: LikeOrDislikePostInputDTO = {
+                idToLikeOrDislike: req.params.id,
+                token: req.headers.authorization,
+                like: req.body.like
+            }
+
+            await this.postBusiness.likeOrDislikePost(input)
+
+            res.status(200).end()
+        } catch (error) {
+            console.log(error)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.status(500).send("Erro inesperado")
+            }
+        }
+    }
 }

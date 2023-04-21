@@ -1,31 +1,25 @@
-import { PostsDB, PostsModel } from "../types"
+import { PostDB, PostModel } from "../types";
 
-export class Posts {    
+export class Posts {
+   
     constructor(
         private id: string,
-        private creatorId:string,
         private content: string,
         private likes: number,
         private dislikes: number,
+        private comments: number,
         private createdAt: string,
         private updatedAt: string,
-        private comments: number
+        private creatorId: string,
+        private creatorName: string,
     ) {}
 
     public getId(): string {
         return this.id
     }
-    
+
     public setId(value: string): void {
         this.id = value
-    }
-
-    public getCreatorId(): string {
-        return this.creatorId
-    }
-    
-    public setCreatorId(value: string): void {
-        this.creatorId = value
     }
 
     public getContent(): string {
@@ -44,12 +38,36 @@ export class Posts {
         this.likes = value
     }
 
+    public addLike() {
+        this.likes += 1
+    }
+
+    public removeLike() {
+        this.likes -= 1
+    }
+
+    public addDislike() {
+        this.dislikes += 1
+    }
+
+    public removeDislike() {
+        this.dislikes -= 1
+    }
+
     public getDislikes(): number {
         return this.dislikes
     }
 
     public setDislikes(value: number): void {
         this.dislikes = value
+    }
+
+    public getComments(): number {
+        return this.comments
+    }
+
+    public setComments(value: number): void {
+        this.comments = value
     }
 
 
@@ -69,37 +87,48 @@ export class Posts {
         this.updatedAt = value
     }
 
-    public getComments(): number {
-        return this.comments
+    public getCreatorId(): string {
+        return this.creatorId
     }
 
-    public setComments(value: number): void {
-        this.comments = value
+    public setCreatorId(value: string): void {
+        this.creatorId = value
     }
 
-    public toDBModel(): PostsDB {
+    public getCreatorName(): string {
+        return this.creatorName
+    }
+
+    public setCreatorName(value: string): void {
+        this.creatorName = value
+    }
+
+    public toDBModel(): PostDB {
         return {
             id: this.id,
-            creator_id:this.creatorId,
+            creator_id: this.creatorId,
             content: this.content,
             likes: this.likes,
             dislikes: this.dislikes,
+            comments: this.comments,
             created_at: this.createdAt,
-            updated_at: this.updatedAt,
-            comments: this.comments
+            updated_at: this.updatedAt
         }
     }
 
-    public toBusinessModel(): PostsModel {
+    public toBusinessModel(): PostModel {
         return {
             id: this.id,
-            creatorId:this.creatorId,
             content: this.content,
             likes: this.likes,
             dislikes: this.dislikes,
             createdAt: this.createdAt,
+            comments: this.comments,
             updatedAt: this.updatedAt,
-            comments: this.comments
+            creator: {
+                id: this.creatorId,
+                name: this.creatorName
+            }
         }
     }
 }

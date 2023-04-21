@@ -1,26 +1,33 @@
-export interface GetAllPostsInputDTO{
-    q:unknown,
-    token:unknown
+import { PostModel } from "../types"
+
+export interface GetPostsInputDTO {
+    token: string | undefined
 }
 
-export interface CreateInputPostsDTO{
-    content:string,
-    token:string|undefined
+export type GetPostsOutputDTO = PostModel[]
+
+export interface CreatePostInputDTO {
+    token: string | undefined,
+    content: unknown
 }
 
-export interface EditInputDTO{
-    id:string,
-    content:string,
-    token:string|undefined
+export interface EditPostInputDTO {
+    idToEdit: string,
+    token: string | undefined,
+    content: unknown
 }
 
-export interface DeleteInputPostsDTO{
-    id:string,
-    token:string|undefined
+export interface DeletePostInputDTO {
+    idToDelete: string,
+    token: string | undefined
 }
 
-export interface LikeDislikeDTO{
-    id:string,
-    like:number,
-    token:string|undefined
+export interface LikeOrDislikePostInputDTO {
+    idToLikeOrDislike: string,
+    token: string | undefined,
+    like: unknown
+}
+export interface getPostCommentsInputDTO {
+    id: string,
+    token: string | undefined
 }

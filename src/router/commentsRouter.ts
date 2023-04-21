@@ -1,27 +1,24 @@
-import express from "express";
-import { CommentBusiness } from "../business/CommentsBusiness";
-import { CommentsController } from "../controller/CommentsControler";
-import { CommentDatabase } from "../database/CommentsDataBase";
-import { PostsDatabase } from "../database/PostsDataBase";
-import { HashManager } from "../services/HashManager";
-import { IdGenerator } from "../services/IdGenerator";
-import { TokenManager } from "../services/TokenManager";
-
-
+import express from "express"
+import { CommentBusiness } from "../business/CommentsBusiness"
+import { CommentsController } from "../controller/CommentsControler"
+import { CommentsDatabase } from "../database/CommentsDatabase"
+import { PostDatabase } from "../database/PostsDatabase"
+import { IdGenerator } from "../services/IdGenerator"
+import { TokenManager } from "../services/TokenManager"
 
 export const commentsRouter = express.Router()
 
 const commentsController = new CommentsController(
     new CommentBusiness(
-       
-        new PostsDatabase(),
-        new CommentDatabase(),
+        new PostDatabase(),
+        new CommentsDatabase(),
         new IdGenerator(),
-        new TokenManager()
+        new TokenManager(),
+    )
 )
-)
-
-commentsRouter.get("/:id", commentsController.getComments)
 commentsRouter.post("/:id", commentsController.createComments)
-// commentsRouter.delete("/:id",commentsController.deleteComments)
-// commentsRouter.put("/:id", commentsController.likeDislikeComments)
+commentsRouter.put("/:id", commentsController.editComments)
+commentsRouter.delete("/:id", commentsController.deleteComments)
+commentsRouter.get("/", commentsController.getComments)
+commentsRouter.get("/:id", commentsController.getCommentsById)
+commentsRouter.put("/:id/like", commentsController.likeDislike)
