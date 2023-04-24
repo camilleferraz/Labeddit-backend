@@ -1,8 +1,8 @@
 import express from "express"
 import { CommentBusiness } from "../business/CommentsBusiness"
 import { CommentsController } from "../controller/CommentsControler"
-import { CommentsDatabase } from "../database/CommentsDatabase"
-import { PostDatabase } from "../database/PostsDatabase"
+import { CommentsDatabase } from "../database/CommentsDataBase"
+import { PostDatabase } from "../database/PostsDataBase"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
 
