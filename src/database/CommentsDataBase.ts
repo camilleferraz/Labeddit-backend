@@ -1,5 +1,5 @@
 import { CommentsDB, CommentsWithCreatorDB, COMMENTS_LIKE, LikeDislikeCommentsDB } from "../types"
-import { BaseDatabase } from "./BaseDatabase"
+import { BaseDatabase } from "./BaseDataBase"
 
 export class CommentsDatabase extends BaseDatabase {
 

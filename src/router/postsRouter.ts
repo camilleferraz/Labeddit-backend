@@ -1,7 +1,7 @@
 import express from 'express'
 import { PostBusiness } from '../business/PostsBusiness'
 import { PostController } from '../controller/PostsController'
-import { PostDatabase } from '../database/PostsDatabase'
+import { PostDatabase } from '../database/PostsDataBase'
 import { IdGenerator } from '../services/IdGenerator'
 import { TokenManager } from '../services/TokenManager'
 

@@ -1,6 +1,6 @@
-import { CommentsDatabase } from "../database/CommentsDatabase";
-import { PostDatabase } from "../database/PostsDatabase";
-import { UserDatabase } from "../database/UserDatabase";
+import { CommentsDatabase } from "../database/CommentsDataBase";
+import { PostDatabase } from "../database/PostsDataBase";
+import { UserDatabase } from "../database/UserDataBase";
 import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostsInputDTO, GetPostsOutputDTO, LikeOrDislikePostInputDTO, getPostCommentsInputDTO } from "../dtos/postsDTO";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
